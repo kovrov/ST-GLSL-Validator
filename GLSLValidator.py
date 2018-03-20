@@ -20,7 +20,7 @@ class glslangValidatorCommandLine:
 
     packagePath = "GLSL Validator"
     platform = sublime.platform()
-    errorPattern = re.compile("ERROR: 0:(\d+): '([^\']*)' : (.*)")
+    errorPattern = re.compile("ERROR: .+:(\d+): '([^\']*)' : (.*)")
     permissionChecked = False
     glslangValidatorPath = {
         "osx": "./glslangValidatorLinux",
@@ -45,7 +45,7 @@ class glslangValidatorCommandLine:
             sublime.Region(0, view.size())
         )
 
-        specCmd = ''
+        specCmd = '--target-env vulkan1.1'
 
         # Create a shell process for essl_to_glsl and pick
         # up its output directly
@@ -73,7 +73,6 @@ class glslangValidatorCommandLine:
 
                 # ignore glslangValidator's comments
                 if not re.search("^####", e):
-
                     # Break down the error using the regexp
                     errorDetails = self.errorPattern.match(e)
 
